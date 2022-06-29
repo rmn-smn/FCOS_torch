@@ -10,7 +10,7 @@ if __name__ == '__main__':
 
     NUM_CLASSES = 20
     BATCH_SIZE = 16
-    IMAGE_SHAPE = (224, 224)
+    IMAGE_SHAPE = (768, 768)
     MAXITER = 60000
     NUM_WORKERS = multiprocessing.cpu_count()
     dataset_path = os.path.join(os.sep,'Volumes','Storage','Datasets','voc')
@@ -29,16 +29,20 @@ if __name__ == '__main__':
         'p5': 32,
     }
 
-    train_dataset = MyVOCDetection(
-        dataset_path ,image_set = 'train', download = False,
+    train_dataset_07 = MyVOCDetection(
+        dataset_path ,year = "2007", image_set = 'trainval', download = False, image_size=IMAGE_SHAPE
     )
+    train_dataset_12 = MyVOCDetection(
+        dataset_path ,year = "2012", image_set = 'trainval', download = False, image_size=IMAGE_SHAPE
+    )
+    train_dataset_0712 = torch.utils.data.ConcatDataset([train_dataset_07,train_dataset_12])
 
     micro_dataset = torch.utils.data.Subset(
-        train_dataset,
+        train_dataset_0712,
         torch.linspace(0, 5, steps=5).long()
     )
 
-    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=BATCH_SIZE,
+    train_loader = torch.utils.data.DataLoader(train_dataset_0712, batch_size=BATCH_SIZE,
                     pin_memory=True)
 
     micro_train_loader = torch.utils.data.DataLoader(

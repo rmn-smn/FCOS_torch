@@ -17,8 +17,8 @@ class BackboneWithFPN(torch.nn.Module):
         '''
         super(BackboneWithFPN, self).__init__()
         # Get a backbone
-        #_cnn = models.regnet_x_400mf(pretrained=True)
-        _cnn = models.regnet_x_3_2gf(pretrained=True)
+        _cnn = models.regnet_x_400mf(pretrained=True)
+        #_cnn = models.regnet_x_3_2gf(pretrained=True)
         # Extract  layers 
         self.backbone = feature_extraction.create_feature_extractor(
             _cnn,

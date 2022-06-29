@@ -173,13 +173,14 @@ class FCOSLoss():
         targets, the folowing procedure is applied on every feature map level i:
         1.  Compute distance (delta) map of every target location (x0,y0,x1,y1) 
             on the feature map (x,y): 
-            t = x - x0; l = y - y0; b = x - x1; r = y - y1
+            t = (x - x0); l = y - y0; b = x - x1; r = y - y1
         2.  compute a maximum-distance-per-location-map for every target: 
             ltrb = max(l,t,r,b)
         3.  create mask = (ltrb < m_i) & (ltrb > m_{i-1}) for every target
         4.  compute index target map by condensing all masks to a single mask retaining
             the target with the smalles area (x1 - x0) * (y1 - y0) 
-        5.  convert target coordinates (x0,y0,x1,y1) to deltas (l,t,r,b)
+        5.  convert target coordinates (x0,y0,x1,y1) to deltas (l,t,r,b)/s 
+            (s = feature level stride)
         6.  assign target properties (l,t,r,b,c) to index target map,
             set all unassigned locations to -1 (background)
         7.  compute and add centerness for each encoded target location

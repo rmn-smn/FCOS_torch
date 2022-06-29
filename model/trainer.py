@@ -63,7 +63,7 @@ class Trainer():
         
         # Record stats & update learning rate
         self.stats['lrs'].append(self._get_lr())
-        self.stats['train_loss'].append(total_loss)
+        self.stats['train_loss'].append(total_loss.item())
         self.stats['train_reg_loss'].append(losses['reg_loss'].item())
         self.stats['train_ctr_loss'].append(losses['ctr_loss'].item())
         self.stats['train_cls_loss'].append(losses['cls_loss'].item())
@@ -111,7 +111,7 @@ class Trainer():
                         i,self.max_iter, self.stats['train_loss'][-1], 
                             self.stats['train_reg_loss'][-1], 
                             self.stats['train_cls_loss'][-1], 
-                            self.stats['train_cls_loss'][-1], self._get_lr()
+                            self.stats['train_ctr_loss'][-1], self._get_lr()
                     )
                 )
             self.last_iter = i

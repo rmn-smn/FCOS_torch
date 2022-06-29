@@ -87,14 +87,19 @@ class MyVOCDetection(VOCDetection):
 
         _transforms = [
             ToTensor(),
+            ToCV2Image(),
+            PhotometricDistort(),
+            ToTensor(),
             Normalize(
                 mean=[0.485, 0.456, 0.406], 
                 std=[0.229, 0.224, 0.225], 
                 to_bgr255=False
             ),
-            PadToSquare(0),
+            
+            #PadToSquare(0),
             Flip(0.5,'horizontal'),
-            Resize(224)
+            Resize(self.image_size)
+            
         ]
         image_transform = Compose(_transforms)
 
@@ -118,7 +123,7 @@ class MyVOCDetection(VOCDetection):
 
         # Pad to 40 boxes
         target = torch.cat(
-            [target, torch.zeros(40 - len(target), 5).fill_(-1.0)]
+            [target, torch.zeros(100 - len(target), 5).fill_(-1.0)]
         )
         return image_path,image, target
 
@@ -126,9 +131,10 @@ if __name__ == '__main__':
 
     batch_size = 64
     num_classes = 20
+    IMAGE_SHAPE = (768, 768)
     file_path = os.path.join(os.sep,'Volumes','Storage','Datasets','voc')
     train_ds = MyVOCDetection(
-        file_path,image_set = 'train', download = False,
+        file_path,image_set = 'train', download = False, image_size=IMAGE_SHAPE
     )
 
     for i in range(4):

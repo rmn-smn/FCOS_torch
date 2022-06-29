@@ -82,8 +82,8 @@ def inference_for_validation(
     # if output_dir is provided create directories to store predictions 
     # and target values to calculate mAP
     if output_dir is not None:
-        det_dir = "mAP/input/detection-results"
-        gt_dir = "mAP/input/ground-truth"
+        det_dir = os.path.join(output_dir,'detection-results')
+        gt_dir = os.path.join(output_dir,'ground-truth')
         if os.path.exists(det_dir):
             shutil.rmtree(det_dir)
         os.mkdir(det_dir)
