@@ -1,7 +1,6 @@
 from typing import Dict
 import torch
 from torch import Tensor, nn
-from datasets.dataset_voc_tiny import VOC2007DetectionTiny
 from torch.utils.data._utils.collate import default_collate
 from torchvision.ops import sigmoid_focal_loss
 import torch.nn.functional as F

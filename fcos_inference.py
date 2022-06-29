@@ -3,7 +3,6 @@ from model.fcos import FCOS
 import os
 import torch
 from datasets.dataset_voc import MyVOCDetection
-from datasets.dataset_voc_tiny_padded import VOC2007DetectionTiny
 import multiprocessing
 from model.inference import inference_for_validation
 
