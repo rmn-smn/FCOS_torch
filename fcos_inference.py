@@ -18,11 +18,11 @@ if __name__ == '__main__':
 
     # Set a few constants related to data loading.
     NUM_CLASSES = 20
-    BATCH_SIZE = 1#16
+    BATCH_SIZE = 1
     IMAGE_SHAPE = (224, 224)
     NUM_WORKERS = multiprocessing.cpu_count()
-    dataset_path = os.path.join(os.sep,'Volumes','Storage','Datasets')
-    mAP_path = os.path.join(os.sep,'Volumes','Storage','Datasets','mAP')
+    dataset_path = os.path.join('.','dataset')
+    mAP_path = os.path.join('.','mAP')
 
     weights_path = os.path.join('weights', "fcos_weights_c256_l4_builtin_fpn_regnet_x_3_2gf.pt")
 
@@ -42,10 +42,7 @@ if __name__ == '__main__':
         os.path.join(dataset_path,'voc'), year="2007", image_set="test", image_size=IMAGE_SHAPE[0],
         download=True  # True (for the first time)
     )
-    # val_dataset = VOC2007DetectionTiny(
-    #     os.path.join(dataset_path,'voc_tiny'), "val", image_size=IMAGE_SHAPE[0],
-    #     download=False  # True (for the first time)
-    # )
+
     val_loader = torch.utils.data.DataLoader(
         val_dataset, batch_size=BATCH_SIZE, pin_memory=True, num_workers=NUM_WORKERS
     )
@@ -54,7 +51,6 @@ if __name__ == '__main__':
 
     detector.to(device=DEVICE)
     detector.load_state_dict(torch.load(weights_path, map_location="cpu")['model_state_dict'])
-    #detector.load_state_dict(torch.load(weights_path, map_location="cpu"))
 
     inference_for_validation(
         detector,

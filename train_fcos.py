@@ -13,8 +13,8 @@ if __name__ == '__main__':
     IMAGE_SHAPE = (768, 768)
     MAXITER = 60000
     NUM_WORKERS = multiprocessing.cpu_count()
-    dataset_path = os.path.join(os.sep,'Volumes','Storage','Datasets','voc')
-    weights_path = os.path.join('.', 'weights','test.pt')
+    dataset_path = os.path.join('.','dataset')
+    weights_path = os.path.join('weights', "fcos_weights_c256_l4_builtin_fpn_regnet_x_3_2gf.pt")
 
     if torch.cuda.is_available():
         DEVICE = torch.device("cuda")
@@ -49,7 +49,7 @@ if __name__ == '__main__':
         micro_dataset, batch_size=BATCH_SIZE, pin_memory=True, num_workers=NUM_WORKERS
     )
 
-    fcos = FCOS(NUM_CLASSES, fpn_strides,fpn_channels=64,stem_channels=[64, 64],device=DEVICE)
+    fcos = FCOS(NUM_CLASSES, fpn_strides,fpn_channels=256,stem_channels=[256,256,256,256],device='cpu')
 
     trainer = Trainer(
         fcos, 
